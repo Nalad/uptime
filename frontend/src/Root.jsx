@@ -3,6 +3,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import { hot } from "react-hot-loader";
 import store from "./store";
 import Landing from "./containers/Landing";
 import ChecksContainer from "./containers/ChecksContainer";
@@ -21,4 +22,4 @@ const Root = () => (
   </Provider>
 );
 
-export default Root;
+export default hot(module)(Root);
