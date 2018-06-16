@@ -3,8 +3,11 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import type { RouterHistory } from "react-router-dom";
+import { logoutUser } from "../actions";
 import { getChecks } from "../asyncActions";
 import EditCheck from "../components/EditCheck";
+import Header from "../components/Header";
 import CheckInfo from "../components/CheckInfo";
 import { getAuthorizationHeader } from "../Utilities";
 
@@ -24,7 +27,9 @@ const postCheck = (check: Check) => {
 
 type Props = {
   getData: Function,
-  checks: Array<Check>
+  logout: Function,
+  checks: Array<Check>,
+  history: RouterHistory
 };
 
 export type EditWindow = {
@@ -49,7 +54,7 @@ class ChecksContainer extends React.Component<Props, State> {
   }
 
   handleEditWindow = (visible: boolean) => {
-    this.setState(Object.assign({}, this.state, { isEditing: visible }));
+    this.setState({ isEditing: visible });
   };
 
   handleInputChange = (
@@ -67,13 +72,20 @@ class ChecksContainer extends React.Component<Props, State> {
     this.setState({ editWindow: data });
   };
 
+  handleLogout = () => {
+    this.props.logout();
+    this.props.history.push("/");
+  };
+
   render() {
     return (
       <div>
+        <Header handleLogout={this.handleLogout} />
         {this.props.checks.map(check => (
           <CheckInfo
             {...check}
             handleFillEditWindow={this.handleFillEditWindow}
+            handleEditWindow={this.handleEditWindow}
             key={check.name}
           />
         ))}
@@ -101,6 +113,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   getData() {
     dispatch(getChecks());
+  },
+  logout() {
+    dispatch(logoutUser());
   }
 });
 

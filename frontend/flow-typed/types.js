@@ -27,7 +27,8 @@ declare type ActionType =
   | "SIGN_UP_REQUEST"
   | "SIGN_UP_SUCCESS"
   | "SIGN_UP_FAILURE"
-  | "CHECKS_SUCCESS";
+  | "CHECKS_SUCCESS"
+  | "CLEAN_CHECKS";
 
 declare type ActionT<A: ActionType, P> = {|
   type: A,
@@ -44,4 +45,5 @@ export type Action =
   | ActionT<"SIGN_UP_REQUEST", *>
   | ActionT<"SIGN_UP_SUCCESS", *>
   | ActionT<"SIGN_UP_FAILURE", string>
-  | ActionT<"CHECKS_SUCCESS", Array<Check>>;
+  | ActionT<"CHECKS_SUCCESS", Array<Check>>
+  | ActionT<"CLEAN_CHECKS", *>;

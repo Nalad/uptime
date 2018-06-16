@@ -10,7 +10,7 @@ import {
   CHECKS_SUCCESS
 } from "./asyncActions";
 
-import { LOGOUT_REQUEST, LOGOUT_SUCCESS } from "./actions";
+import { LOGOUT_REQUEST, LOGOUT_SUCCESS, CLEAN_CHECKS } from "./actions";
 
 export function requestLogin(creds: Credentials) {
   return {
@@ -74,5 +74,11 @@ export function receiveChecks(checksData: Array<Check>) {
   return {
     type: CHECKS_SUCCESS,
     payload: checksData
+  };
+}
+
+export function cleanChecks() {
+  return {
+    type: CLEAN_CHECKS
   };
 }

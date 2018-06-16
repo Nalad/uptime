@@ -10,7 +10,7 @@ import {
   SIGN_UP_FAILURE,
   CHECKS_SUCCESS
 } from "./asyncActions";
-import { LOGOUT_REQUEST, LOGOUT_SUCCESS } from "./actions";
+import { LOGOUT_REQUEST, LOGOUT_SUCCESS, CLEAN_CHECKS } from "./actions";
 
 const chks = (state = { checks: [] }, action: Action) => {
   switch (action.type) {
@@ -18,6 +18,9 @@ const chks = (state = { checks: [] }, action: Action) => {
       return Object.assign({}, state, {
         checks: action.payload
       });
+    }
+    case CLEAN_CHECKS: {
+      return { checks: [] };
     }
     default:
       return state;
