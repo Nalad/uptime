@@ -4,7 +4,8 @@ import React from "react";
 
 const CheckInfo = (props: {
   ...$Exact<Check>,
-  handleFillEditWindow: Function
+  handleFillEditWindow: Function,
+  handleEditWindow: Function
 }) => (
   <div>
     <h1>{props.name}</h1>
@@ -17,16 +18,18 @@ const CheckInfo = (props: {
         100}%
     </p>
     <button
-      onClick={() =>
+      onClick={() => {
         props.handleFillEditWindow({
           name: props.name,
           uri: props.uri,
           interval: props.interval
-        })
-      }
+        });
+        props.handleEditWindow(true);
+      }}
     >
       Edit
     </button>
+    <button>Delete</button>
   </div>
 );
 

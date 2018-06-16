@@ -93,6 +93,7 @@ class ChecksContainer extends React.Component<Props, State> {
           isEditing={this.state.isEditing}
           editWindow={this.state.editWindow}
           handleEditWindow={this.handleEditWindow}
+          handleFillEditWindow={this.handleFillEditWindow}
           handleInputChange={this.handleInputChange}
           sendCheck={postCheck}
         />

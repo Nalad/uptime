@@ -8,6 +8,7 @@ type Props = {
   editWindow: EditWindow,
   handleEditWindow: Function,
   handleInputChange: Function,
+  handleFillEditWindow: Function,
   sendCheck: Function
 };
 
@@ -45,12 +46,18 @@ const EditCheck = (props: Props) => (
             Save
           </button>
           <button onClick={() => props.handleEditWindow(false)}>Cancel</button>
-          <button>Delete</button>
         </div>
       </div>
     ) : (
       <div>
-        <button onClick={() => props.handleEditWindow(true)}>Add</button>
+        <button
+          onClick={() => {
+            props.handleEditWindow(true);
+            props.handleFillEditWindow({ name: "", uri: "", interval: 30000 });
+          }}
+        >
+          Add
+        </button>
       </div>
     )}
   </div>
