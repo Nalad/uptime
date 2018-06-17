@@ -3,7 +3,7 @@ package com.notenoughviolence.pompom;
 import com.notenoughviolence.pompom.domain.CheckId;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.ScheduledMethodRunnable;
 import org.springframework.stereotype.Component;
@@ -13,23 +13,25 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
-@Configuration
-@EnableScheduling
 @Component
+@Configuration
 public class CustomScheduler {
 
     private final Map<CheckId, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
 
-    public Map<CheckId, ScheduledFuture<?>> getScheduledTasks() {
-        return scheduledTasks;
+    public void cancelScheduledPolling(CheckId checkId) {
+        ScheduledFuture<?> scheduledFuture = scheduledTasks.remove(checkId);
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(false);
+        }
     }
 
     @Bean
-    public org.springframework.scheduling.TaskScheduler taskScheduler() {
-        return new TaskScheduler();
+    public TaskScheduler taskScheduler() {
+        return new CustomThreadPoolTaskScheduler();
     }
 
-    class TaskScheduler extends ThreadPoolTaskScheduler {
+    class CustomThreadPoolTaskScheduler extends ThreadPoolTaskScheduler {
 
         @Override
         public ScheduledFuture<?> scheduleAtFixedRate(Runnable task, long period) {

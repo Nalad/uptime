@@ -3,14 +3,15 @@ package com.notenoughviolence.pompom.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Embeddable
 public class CheckId implements Serializable {
 
     @ManyToOne
+    @JoinColumn(name = "user_id_id")
     @JsonIgnore
     private ApplicationUser userId;
 
@@ -45,14 +46,13 @@ public class CheckId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CheckId checkId = (CheckId) o;
-        return Objects.equals(userId, checkId.userId) &&
-                Objects.equals(name, checkId.name);
+        return com.google.common.base.Objects.equal(userId, checkId.userId) &&
+                com.google.common.base.Objects.equal(name, checkId.name);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(userId, name);
+        return com.google.common.base.Objects.hashCode(userId, name);
     }
 
     @Override

@@ -4,9 +4,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-@Entity
+@Entity(name = "ApplicationUserEntity")
+@Table(name = "application_user_table")
 public class ApplicationUser {
 
     @Id
@@ -16,7 +16,7 @@ public class ApplicationUser {
     private String username;
     private String password;
 
-    @OneToMany(mappedBy = "checkId.userId")
+    @OneToMany(mappedBy = "checkId.userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Check> checks = new ArrayList<>();
 
     public Long getId() {
@@ -51,6 +51,16 @@ public class ApplicationUser {
         this.checks = checks;
     }
 
+    public void addCheck(Check chk) {
+        checks.add(chk);
+        chk.getCheckId().setUserId(this);
+    }
+
+    public void removeCheck(Check chk) {
+        checks.remove(chk);
+        chk.getCheckId().setUserId(null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,6 +79,9 @@ public class ApplicationUser {
     public String toString() {
         return "ApplicationUser{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", checks_size=" + checks.size() +
                 '}';
     }
 }

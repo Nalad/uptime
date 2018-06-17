@@ -1,13 +1,14 @@
 package com.notenoughviolence.pompom.domain;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.google.common.base.Objects;
 
-import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@Entity
-@Table(name = "checks_table")
+@Entity(name = "CheckEntity")
+@Table(name = "check_table")
 public class Check {
 
     @EmbeddedId
@@ -17,9 +18,6 @@ public class Check {
     private String uri;
 
     private Integer interval;
-
-    @OneToMany(mappedBy = "check")
-    private Set<Poll> polls;
 
     public CheckId getCheckId() {
         return checkId;
@@ -45,26 +43,17 @@ public class Check {
         this.interval = interval;
     }
 
-    public Set<Poll> getPolls() {
-        return polls;
-    }
-
-    public void setPolls(Set<Poll> polls) {
-        this.polls = polls;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Check check = (Check) o;
-        return Objects.equals(checkId, check.checkId);
+        return Objects.equal(checkId, check.checkId);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(checkId);
+        return Objects.hashCode(checkId);
     }
 
     @Override

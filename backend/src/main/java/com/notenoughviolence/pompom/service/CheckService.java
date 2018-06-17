@@ -1,13 +1,14 @@
 package com.notenoughviolence.pompom.service;
 
-import com.notenoughviolence.pompom.domain.ApplicationUser;
 import com.notenoughviolence.pompom.domain.Check;
+import com.notenoughviolence.pompom.domain.CheckProxy;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface CheckService {
 
-    void save(Check check) throws NoSuchMethodException;
+    void save(Check check, Principal principal);
 
-    List<Check> getAllOfGivenUser(ApplicationUser user);
+    List<CheckProxy> getAllOfGivenUser(Principal principal);
 }

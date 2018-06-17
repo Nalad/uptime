@@ -1,9 +1,7 @@
 package com.notenoughviolence.pompom.controller;
 
-import com.notenoughviolence.pompom.domain.ApplicationUser;
 import com.notenoughviolence.pompom.domain.Check;
-import com.notenoughviolence.pompom.domain.CheckId;
-import com.notenoughviolence.pompom.repository.ApplicationUserRepository;
+import com.notenoughviolence.pompom.domain.CheckProxy;
 import com.notenoughviolence.pompom.service.CheckService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,25 +15,19 @@ import java.util.List;
 @RequestMapping("/api")
 public class CheckController {
 
-    private ApplicationUserRepository applicationUserRepository;
     private CheckService checkService;
 
-    public CheckController(ApplicationUserRepository applicationUserRepository, CheckService checkService) {
-        this.applicationUserRepository = applicationUserRepository;
+    public CheckController(CheckService checkService) {
         this.checkService = checkService;
     }
 
     @RequestMapping(value = "/checks", method = RequestMethod.POST)
-    public void updateCheck(@RequestBody Check check, Principal principal) throws NoSuchMethodException {
-        ApplicationUser user = applicationUserRepository.findByUsername(principal.getName());
-        check.setCheckId(new CheckId(user, check.getCheckId().getName()));
-        checkService.save(check);
+    public void updateCheck(@RequestBody Check check, Principal principal) {
+        checkService.save(check, principal);
     }
 
     @RequestMapping(value = "/checks", method = RequestMethod.GET)
-    public List<Check> getChecks(Principal principal) {
-        ApplicationUser user = applicationUserRepository.findByUsername(principal.getName());
-        return checkService.getAllOfGivenUser(user);
+    public List<CheckProxy> getChecks(Principal principal) {
+        return checkService.getAllOfGivenUser(principal);
     }
-
 }
