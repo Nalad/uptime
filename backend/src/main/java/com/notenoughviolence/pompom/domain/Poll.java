@@ -19,6 +19,7 @@ public class Poll {
     private LocalDateTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Check chk;
 
     public Poll() {
