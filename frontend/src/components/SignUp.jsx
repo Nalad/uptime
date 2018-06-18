@@ -1,6 +1,9 @@
 // @flow
 
 import React from "react";
+import { Form, Input, Button, Icon } from "antd";
+
+const FormItem = Form.Item;
 
 class SignUp extends React.Component<
   { handleSignUpClick: Function },
@@ -22,27 +25,37 @@ class SignUp extends React.Component<
 
   render() {
     return (
-      <div>
-        <input
-          type="text"
-          placeholder="Username"
-          value={this.state.creds.username}
-          onChange={event => this.handleFormChange(event, "username")}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={this.state.creds.password}
-          onChange={event => this.handleFormChange(event, "password")}
-        />
-        <button
-          onClick={event =>
-            this.props.handleSignUpClick(event, this.state.creds)
-          }
-        >
-          Sign Up
-        </button>
-      </div>
+      <Form
+        onSubmit={e => this.props.handleSignUpClick(e, this.state.creds)}
+        className="login-form"
+      >
+        <FormItem>
+          <Input
+            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+            placeholder="Username"
+            value={this.state.creds.username}
+            onChange={event => this.handleFormChange(event, "username")}
+          />
+        </FormItem>
+        <FormItem>
+          <Input
+            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+            type="password"
+            placeholder="Password"
+            value={this.state.creds.password}
+            onChange={event => this.handleFormChange(event, "password")}
+          />
+        </FormItem>
+        <FormItem>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
+            Sign up
+          </Button>
+        </FormItem>
+      </Form>
     );
   }
 }

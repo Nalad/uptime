@@ -3,10 +3,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import type { RouterHistory } from "react-router-dom";
+import { Row, Col, Menu } from "antd";
+import "antd/dist/antd.css";
 import { logoutUser } from "../actions";
 import { loginUser, signUpUser } from "../asyncActions";
 import Login from "../components/Login";
-import Logout from "../components/Logout";
 import SignUp from "../components/SignUp";
 
 type Props = {
@@ -19,7 +20,15 @@ type Props = {
   history: RouterHistory
 };
 
-class Landing extends React.Component<Props> {
+type State = {
+  isLoginWindowVisible: boolean
+};
+
+class Landing extends React.Component<Props, State> {
+  state = {
+    isLoginWindowVisible: true
+  };
+
   componentDidUpdate() {
     if (this.props.isAuthenticated) this.props.history.push("/checks");
   }
@@ -48,18 +57,39 @@ class Landing extends React.Component<Props> {
     this.props.signUp(creds);
   };
 
+  handleSelectClick = item => {
+    if (item.key === "login") {
+      this.setState({ isLoginWindowVisible: true });
+    } else if (item.key === "signup") {
+      this.setState({ isLoginWindowVisible: false });
+    }
+  };
+
   render() {
     return (
       <div>
-        {!this.props.isAuthenticated && (
-          <Login handleLoginClick={this.handleLoginClick} />
-        )}
-        {this.props.isAuthenticated && (
-          <Logout handleLogoutClick={this.handleLogoutClick} />
-        )}
-        {!this.props.isAuthenticated && (
-          <SignUp handleSignUpClick={this.handleSignUpClick} />
-        )}
+        <Row type="flex" justify="center" align="middle">
+          <Col span={4}>
+            <Menu
+              mode="horizontal"
+              onSelect={this.handleSelectClick}
+              defaultSelectedKeys={["login"]}
+            >
+              <Menu.Item key="login">Log in</Menu.Item>
+              <Menu.Item key="signup">Sign Up</Menu.Item>
+            </Menu>
+          </Col>
+        </Row>
+        <Row type="flex" justify="center" align="middle">
+          <Col span={4}>
+            {this.state.isLoginWindowVisible && (
+              <Login handleLoginClick={this.handleLoginClick} />
+            )}
+            {!this.state.isLoginWindowVisible && (
+              <SignUp handleSignUpClick={this.handleSignUpClick} />
+            )}
+          </Col>
+        </Row>
         <p>{this.props.isFetching ? "fetching" : "not fetching"}</p>
         <p>{this.props.errorMessage}</p>
       </div>
