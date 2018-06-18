@@ -25,6 +25,20 @@ const postCheck = (check: Check) => {
   });
 };
 
+const deleteCheck = (check: Check) => {
+  const headers = {
+    "Content-Type": "application/json",
+    ...getAuthorizationHeader()
+  };
+
+  axios({
+    method: "DELETE",
+    url: "http://localhost:8080/api/checks",
+    data: check,
+    headers
+  });
+};
+
 type Props = {
   getData: Function,
   logout: Function,
@@ -86,6 +100,7 @@ class ChecksContainer extends React.Component<Props, State> {
             {...check}
             handleFillEditWindow={this.handleFillEditWindow}
             handleEditWindow={this.handleEditWindow}
+            deleteCheck={deleteCheck}
             key={check.name}
           />
         ))}

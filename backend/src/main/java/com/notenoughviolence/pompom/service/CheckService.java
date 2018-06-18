@@ -11,4 +11,6 @@ public interface CheckService {
     void save(Check check, Principal principal);
 
     List<CheckProxy> getAllOfGivenUser(Principal principal);
+
+    void delete(Check check, Principal principal);
 }

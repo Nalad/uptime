@@ -9,4 +9,6 @@ import java.util.List;
 public interface PollRepository extends CrudRepository<Poll, Long> {
 
     List<Poll> findAllByChk(Check chk);
+
+    void deleteAllByChk(Check chk);
 }

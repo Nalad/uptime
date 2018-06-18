@@ -30,4 +30,9 @@ public class CheckController {
     public List<CheckProxy> getChecks(Principal principal) {
         return checkService.getAllOfGivenUser(principal);
     }
+
+    @RequestMapping(value = "/checks", method = RequestMethod.DELETE)
+    public void deleteCheck(@RequestBody Check check, Principal principal) {
+        checkService.delete(check, principal);
+    }
 }

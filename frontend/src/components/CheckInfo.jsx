@@ -5,7 +5,8 @@ import React from "react";
 const CheckInfo = (props: {
   ...$Exact<Check>,
   handleFillEditWindow: Function,
-  handleEditWindow: Function
+  handleEditWindow: Function,
+  deleteCheck: Function
 }) => (
   <div>
     <h1>{props.name}</h1>
@@ -29,7 +30,9 @@ const CheckInfo = (props: {
     >
       Edit
     </button>
-    <button>Delete</button>
+    <button onClick={() => props.deleteCheck({ name: props.name })}>
+      Delete
+    </button>
   </div>
 );
 

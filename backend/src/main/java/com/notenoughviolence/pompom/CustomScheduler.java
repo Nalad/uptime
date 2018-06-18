@@ -26,6 +26,10 @@ public class CustomScheduler {
         }
     }
 
+    public ScheduledFuture<?> getScheduledPoller(CheckId checkId) {
+        return scheduledTasks.get(checkId);
+    }
+
     @Bean
     public TaskScheduler taskScheduler() {
         return new CustomThreadPoolTaskScheduler();

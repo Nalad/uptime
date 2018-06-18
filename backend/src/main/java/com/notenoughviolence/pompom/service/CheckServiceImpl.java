@@ -10,6 +10,7 @@ import com.notenoughviolence.pompom.repository.PollRepository;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.ScheduledMethodRunnable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -60,5 +61,19 @@ public class CheckServiceImpl implements CheckService {
             toSerialize.add(new CheckProxy(check, pollRepository.findAllByChk(check)));
         }
         return toSerialize;
+    }
+
+    @Transactional
+    public void delete(Check check, Principal principal) {
+        ApplicationUser user = applicationUserRepository.findByUsername(principal.getName());
+
+        check.getCheckId().setUserId(user);
+
+        synchronized (customScheduler.getScheduledPoller(check.getCheckId())) {
+            customScheduler.cancelScheduledPolling(check.getCheckId());
+
+            pollRepository.deleteAllByChk(check);
+            user.removeCheck(check);
+        }
     }
 }

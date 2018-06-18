@@ -57,7 +57,7 @@ public class ApplicationUser {
     }
 
     public void removeCheck(Check chk) {
-        checks.remove(chk);
+        checks.removeIf((x) -> x.getCheckId().getName().equals(chk.getCheckId().getName()));
         chk.getCheckId().setUserId(null);
     }
 
