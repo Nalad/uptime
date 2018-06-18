@@ -25,6 +25,10 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [{ loader: "style-loader" }, { loader: "css-loader" }]
+      },
+      {
         enforce: "pre",
         test: /\.jsx?$/,
         loader: "eslint-loader",
