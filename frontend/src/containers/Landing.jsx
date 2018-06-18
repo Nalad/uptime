@@ -3,7 +3,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import type { RouterHistory } from "react-router-dom";
-import { Row, Col, Menu } from "antd";
+import { Row, Col, Menu, Spin, Alert } from "antd";
 import "antd/dist/antd.css";
 import { logoutUser } from "../actions";
 import { loginUser, signUpUser } from "../asyncActions";
@@ -83,15 +83,30 @@ class Landing extends React.Component<Props, State> {
         <Row type="flex" justify="center" align="middle">
           <Col span={4}>
             {this.state.isLoginWindowVisible && (
-              <Login handleLoginClick={this.handleLoginClick} />
+              <Login
+                handleLoginClick={this.handleLoginClick}
+                isFetching={this.props.isFetching}
+              />
             )}
             {!this.state.isLoginWindowVisible && (
               <SignUp handleSignUpClick={this.handleSignUpClick} />
             )}
           </Col>
         </Row>
-        <p>{this.props.isFetching ? "fetching" : "not fetching"}</p>
-        <p>{this.props.errorMessage}</p>
+        <Row type="flex" justify="center" align="middle">
+          <Col span={4}>
+            <Row type="flex" justify="center" align="middle">
+              {this.props.isFetching ? <Spin /> : ""}
+              {this.props.errorMessage && (
+                <Alert
+                  message={this.props.errorMessage}
+                  type="error"
+                  showIcon
+                />
+              )}
+            </Row>
+          </Col>
+        </Row>
       </div>
     );
   }

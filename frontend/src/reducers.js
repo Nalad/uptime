@@ -39,6 +39,7 @@ const auth = (
       return Object.assign({}, state, {
         isFetching: true,
         isAuthenticated: false,
+        errorMessage: "",
         user: action.payload
       });
     }
