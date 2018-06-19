@@ -1,5 +1,5 @@
-// flow-typed signature: 5b6499b7fe7c8b760f8acf3b28473a88
-// flow-typed version: 0e60d78d09/react-router-dom_v4.x.x/flow_>=v0.63.x
+// flow-typed signature: 6543cb342cdcec61de7fd59021765eac
+// flow-typed version: e94381d642/react-router-dom_v4.x.x/flow_>=v0.63.x
 
 declare module "react-router-dom" {
   declare export class BrowserRouter extends React$Component<{|
@@ -133,7 +133,10 @@ declare module "react-router-dom" {
 
   declare export class Redirect extends React$Component<{|
     to: string | LocationShape,
-    push?: boolean
+    push?: boolean,
+    from?: string,
+    exact?: boolean,
+    strict?: boolean
   |}> {}
 
   declare export class Route extends React$Component<{|
@@ -142,7 +145,9 @@ declare module "react-router-dom" {
     children?: React$ComponentType<ContextRouter> | React$Node,
     path?: string,
     exact?: boolean,
-    strict?: boolean
+    strict?: boolean,
+    location?: LocationShape,
+    sensitive?: boolean
   |}> {}
 
   declare export class Switch extends React$Component<{|
