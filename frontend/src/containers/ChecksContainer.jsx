@@ -4,12 +4,15 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import type { RouterHistory } from "react-router-dom";
+import { Layout, Menu } from "antd";
 import { logoutUser } from "../actions";
 import { getChecks } from "../asyncActions";
 import EditCheck from "../components/EditCheck";
 import Header from "../components/Header";
 import CheckInfo from "../components/CheckInfo";
 import { getAuthorizationHeader } from "../Utilities";
+
+const { Sider, Content } = Layout;
 
 const postCheck = (check: Check) => {
   const headers = {
@@ -39,6 +42,12 @@ const deleteCheck = (check: Check) => {
   });
 };
 
+export type EditWindow = {
+  name: string,
+  uri: string,
+  interval: number
+};
+
 type Props = {
   getData: Function,
   logout: Function,
@@ -46,73 +55,75 @@ type Props = {
   history: RouterHistory
 };
 
-export type EditWindow = {
-  name: string,
-  uri: string,
-  interval: number
-};
-
 type State = {
-  isEditing: boolean,
-  editWindow: EditWindow
+  selectedCheck: string
 };
 
 class ChecksContainer extends React.Component<Props, State> {
   state = {
-    isEditing: false,
-    editWindow: { name: "", uri: "", interval: 5000 }
+    selectedCheck: ""
   };
 
   componentDidMount() {
     this.props.getData();
   }
 
-  handleEditWindow = (visible: boolean) => {
-    this.setState({ isEditing: visible });
-  };
-
-  handleInputChange = (
-    event: SyntheticEvent<HTMLInputElement> & {
-      currentTarget: HTMLInputElement
-    }
-  ) => {
-    const ew = Object.assign({}, this.state.editWindow, {
-      [event.currentTarget.name]: event.currentTarget.value
-    });
-    this.setState({ editWindow: ew });
-  };
-
-  handleFillEditWindow = (data: EditWindow) => {
-    this.setState({ editWindow: data });
-  };
-
   handleLogout = () => {
     this.props.logout();
     this.props.history.push("/");
   };
 
+  handleSelectCheck = (item: { key: string }) => {
+    this.setState({ selectedCheck: item.key });
+  };
+
   render() {
+    const defaultCheck = this.props.checks.find(
+      x => x.name === this.state.selectedCheck
+    );
+
     return (
-      <div>
+      <Layout>
         <Header handleLogout={this.handleLogout} />
-        {this.props.checks.map(check => (
-          <CheckInfo
-            {...check}
-            handleFillEditWindow={this.handleFillEditWindow}
-            handleEditWindow={this.handleEditWindow}
-            deleteCheck={deleteCheck}
-            key={check.name}
-          />
-        ))}
+        <Layout>
+          <Sider width={200} style={{ background: "#fff" }}>
+            <Menu
+              mode="inline"
+              style={{ height: "100%", borderRight: 0 }}
+              onSelect={this.handleSelectCheck}
+            >
+              {this.props.checks.map(check => (
+                <Menu.Item key={check.name}>{check.name}</Menu.Item>
+              ))}
+            </Menu>
+          </Sider>
+          <Layout style={{ padding: "24px 24px" }}>
+            <Content
+              style={{
+                background: "#fff",
+                padding: 24,
+                margin: 0,
+                minHeight: 280
+              }}
+            >
+              {defaultCheck ? (
+                <CheckInfo
+                  {...defaultCheck}
+                  saveCheck={postCheck}
+                  deleteCheck={deleteCheck}
+                />
+              ) : (
+                ""
+              )}
+            </Content>
+          </Layout>
+        </Layout>
         <EditCheck
-          isEditing={this.state.isEditing}
-          editWindow={this.state.editWindow}
-          handleEditWindow={this.handleEditWindow}
-          handleFillEditWindow={this.handleFillEditWindow}
-          handleInputChange={this.handleInputChange}
-          sendCheck={postCheck}
+          mainVerb="Add"
+          check={{ name: "", uri: "", interval: 30000 }}
+          saveCheck={postCheck}
         />
-      </div>
+      </Layout>
     );
   }
 }

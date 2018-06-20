@@ -1,38 +1,45 @@
 // @flow
 
 import React from "react";
+import { Button } from "antd";
+import EditCheck from "./EditCheck";
 
 const CheckInfo = (props: {
   ...$Exact<Check>,
-  handleFillEditWindow: Function,
-  handleEditWindow: Function,
+  saveCheck: Function,
   deleteCheck: Function
 }) => (
   <div>
-    <h1>{props.name}</h1>
-    <p>Uri: {props.uri}</p>
-    <p>Interval: {props.interval} ms</p>
-    <p>
-      Availability:{" "}
-      {props.polls.filter(poll => poll.availability === "UP").length /
-        props.polls.length *
-        100}%
-    </p>
-    <button
-      onClick={() => {
-        props.handleFillEditWindow({
-          name: props.name,
-          uri: props.uri,
-          interval: props.interval
-        });
-        props.handleEditWindow(true);
-      }}
-    >
-      Edit
-    </button>
-    <button onClick={() => props.deleteCheck({ name: props.name })}>
-      Delete
-    </button>
+    <div>
+      <p>
+        <strong>Uri: </strong>
+        <a href={props.uri} target="_blank">
+          {props.uri}
+        </a>
+      </p>
+      <p>
+        <strong>Interval: </strong>
+        {props.interval} ms
+      </p>
+      <p>
+        <strong>Availability: </strong>
+        {(
+          props.polls.filter(poll => poll.availability === "UP").length /
+          props.polls.length *
+          100
+        ).toFixed(2)}%
+      </p>
+    </div>
+    <div>
+      <EditCheck
+        mainVerb="Edit"
+        check={{ name: props.name, uri: props.uri, interval: props.interval }}
+        saveCheck={props.saveCheck}
+      />
+      <Button onClick={() => props.deleteCheck({ name: props.name })}>
+        Delete
+      </Button>
+    </div>
   </div>
 );
 

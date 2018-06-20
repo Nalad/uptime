@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "build:dev": "webpack --mode=development",
-    "dev": "webpack-dev-server --mode=development --port 3000",
-    "build": "cross-env NODE_ENV=production webpack -p",
-    "watch": "webpack --watch --mode=development",
+    "build:dev": "webpack",
+    "dev": "webpack-dev-server --port 3000 --progress",
+    "build": "cross-env NODE_ENV=production webpack -p --progress",
+    "watch": "cross-env webpack --watch",
     "flow": "flow",
     "flow-typed": "flow-typed"
   },
@@ -45,8 +45,7 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
-    "redux-thunk": "^2.2.0",
-    "styled-components": "^3.2.6"
+    "redux-thunk": "^2.2.0"
   },
   "name": "env_setup",
   "version": "1.0.0",

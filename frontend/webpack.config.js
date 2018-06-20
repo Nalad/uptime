@@ -26,7 +26,7 @@ const config = {
     rules: [
       {
         test: /\.css$/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }]
+        use: ["style-loader", "css-loader"]
       },
       {
         enforce: "pre",
@@ -36,16 +36,28 @@ const config = {
       },
       {
         test: /\.jsx?$/,
-        loader: "babel-loader"
+        loader: "babel-loader",
+        options: {
+          plugins: [
+            [
+              "import",
+              { libraryName: "antd", libraryDirectory: "es", style: "css" }
+            ]
+          ]
+        }
       }
     ]
-  }
+  },
+  mode: "development"
 };
+
+console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "production") {
   config.entry = ["./src/index.jsx"];
   config.devtool = false;
   config.plugins = [];
+  config.mode = "production";
 }
 
 module.exports = config;

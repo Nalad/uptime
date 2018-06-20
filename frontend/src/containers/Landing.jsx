@@ -4,7 +4,6 @@ import React from "react";
 import { connect } from "react-redux";
 import type { RouterHistory } from "react-router-dom";
 import { Row, Col, Menu, Spin, Alert } from "antd";
-import "antd/dist/antd.css";
 import { logoutUser } from "../actions";
 import { loginUser, signUpUser } from "../asyncActions";
 import Login from "../components/Login";
