@@ -70,7 +70,8 @@ const auth = (
     }
     case SIGN_UP_REQUEST: {
       return Object.assign({}, state, {
-        isFetching: true
+        isFetching: true,
+        errorMessage: ""
       });
     }
     case SIGN_UP_SUCCESS: {

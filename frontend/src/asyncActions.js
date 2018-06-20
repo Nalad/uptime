@@ -42,14 +42,15 @@ export function loginUser(creds: Credentials) {
         }
       })
       .catch(error => {
-        dispatch(loginError(error.response.data.message));
+        if (error.response) dispatch(loginError(error.response.data.message));
+        else dispatch(loginError(error.toString()));
       });
   };
 }
 
 export function signUpUser(creds: Credentials) {
   return (dispatch: Function) => {
-    dispatch(requestSignUp);
+    dispatch(requestSignUp());
 
     axios({
       method: "POST",
@@ -66,12 +67,16 @@ export function signUpUser(creds: Credentials) {
         }
       })
       .catch(error => {
-        switch (error.response.status) {
-          case 409:
-            dispatch(signUpError("Username already exists"));
-            break;
-          default:
-            dispatch(signUpError(error.toString()));
+        if (error.response) {
+          switch (error.response.status) {
+            case 409:
+              dispatch(signUpError("Username already exists"));
+              break;
+            default:
+              dispatch(signUpError(error.toString()));
+          }
+        } else {
+          dispatch(signUpError(error.toString()));
         }
       });
   };
@@ -92,9 +97,6 @@ export function getChecks() {
       if (response.status === 200) {
         dispatch(receiveChecks(response.data));
       }
-      // else if (response.status === 409) {
-      //   dispatch(signUpError("Username already exists"));
-      // }
     });
   };
 }
