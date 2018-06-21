@@ -3,6 +3,7 @@
 import React from "react";
 import { Button } from "antd";
 import EditCheck from "./EditCheck";
+import PollsGraph from "./PollsGraph";
 
 const CheckInfo = (props: {
   ...$Exact<Check>,
@@ -39,6 +40,9 @@ const CheckInfo = (props: {
       <Button onClick={() => props.deleteCheck({ name: props.name })}>
         Delete
       </Button>
+    </div>
+    <div>
+      <PollsGraph dataPolls={props.polls} />
     </div>
   </div>
 );
