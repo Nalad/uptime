@@ -1,5 +1,6 @@
 package com.notenoughviolence.pompom.service;
 
+import com.google.common.base.Stopwatch;
 import com.notenoughviolence.pompom.CustomScheduler;
 import com.notenoughviolence.pompom.Utilities;
 import com.notenoughviolence.pompom.domain.Availability;
@@ -12,6 +13,7 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class PollServiceImpl implements PollService {
@@ -28,7 +30,9 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public void pollGivenCheck(Check chk) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
         Availability availability = Utilities.pingURL(chk.getUri(), TIMEOUT);
+        stopwatch.stop();
 
         ScheduledFuture<?> lock = customScheduler.getScheduledPoller(chk.getCheckId());
         if (lock == null) return;
@@ -37,7 +41,12 @@ public class PollServiceImpl implements PollService {
             // synchronizing on him, it can be removed from the map of scheduled tasks,
             // that is indicating the chk was removed from db
             if (customScheduler.getScheduledPoller(chk.getCheckId()) == null) return;
-            pollRepository.save(new Poll(availability, ZonedDateTime.now(Clock.systemUTC()), chk));
+            pollRepository.save(new Poll(
+                    availability,
+                    ZonedDateTime.now(Clock.systemUTC()),
+                    stopwatch.elapsed(TimeUnit.MILLISECONDS),
+                    chk
+            ));
         }
     }
 }

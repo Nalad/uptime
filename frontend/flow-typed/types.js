@@ -7,6 +7,7 @@ export type Credentials = {
 
 export type Poll = {
   availability: "UP" | "DOWN",
+  latency: number,
   time: Date
 };
 

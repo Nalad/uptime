@@ -19,6 +19,8 @@ public class Poll {
 
     private ZonedDateTime time;
 
+    private Long latency;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Check chk;
@@ -26,9 +28,10 @@ public class Poll {
     public Poll() {
     }
 
-    public Poll(Availability availability, ZonedDateTime time, Check chk) {
+    public Poll(Availability availability, ZonedDateTime time, Long latency, Check chk) {
         this.availability = availability;
         this.time = time;
+        this.latency = latency;
         this.chk = chk;
     }
 
@@ -62,5 +65,13 @@ public class Poll {
 
     public void setChk(Check chk) {
         this.chk = chk;
+    }
+
+    public Long getLatency() {
+        return latency;
+    }
+
+    public void setLatency(Long latency) {
+        this.latency = latency;
     }
 }
