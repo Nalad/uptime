@@ -1,6 +1,6 @@
 // @flow
 
-const getAuthorizationHeader = () => {
+export const getAuthorizationHeader = () => {
   const jwtToken = localStorage.getItem("jwt_token");
 
   let headers = {};
@@ -12,5 +12,10 @@ const getAuthorizationHeader = () => {
   return headers;
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { getAuthorizationHeader };
+export const getMean = (data: Array<number>) =>
+  data.reduce((sum, value) => sum + value) / data.length;
+
+export const getVariance = (data: Array<number>) => {
+  const mean = getMean(data);
+  return data.reduce((sum, value) => sum + (value - mean) ** 2) / data.length;
+};
