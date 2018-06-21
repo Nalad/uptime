@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity(name = "PollEntity")
 @Table(name = "poll_table")
@@ -16,7 +17,7 @@ public class Poll {
 
     private Availability availability;
 
-    private LocalDateTime time;
+    private ZonedDateTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -25,7 +26,7 @@ public class Poll {
     public Poll() {
     }
 
-    public Poll(Availability availability, LocalDateTime time, Check chk) {
+    public Poll(Availability availability, ZonedDateTime time, Check chk) {
         this.availability = availability;
         this.time = time;
         this.chk = chk;
@@ -39,11 +40,11 @@ public class Poll {
         this.availability = availability;
     }
 
-    public LocalDateTime getTime() {
+    public ZonedDateTime getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(ZonedDateTime time) {
         this.time = time;
     }
 
