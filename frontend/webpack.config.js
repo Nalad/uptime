@@ -36,15 +36,7 @@ const config = {
       },
       {
         test: /\.jsx?$/,
-        loader: "babel-loader",
-        options: {
-          plugins: [
-            [
-              "import",
-              { libraryName: "antd", libraryDirectory: "es", style: "css" }
-            ]
-          ]
-        }
+        loader: "babel-loader"
       }
     ]
   },
