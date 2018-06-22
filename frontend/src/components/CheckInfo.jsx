@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react";
-import { Button } from "antd";
+import { Button, Popconfirm } from "antd";
 import EditCheck from "./EditCheck";
 import PollsGraph from "./PollsGraph";
 import { getMean, getVariance } from "../Utilities";
@@ -62,9 +62,12 @@ const CheckInfo = (props: {
         check={{ name: props.name, uri: props.uri, interval: props.interval }}
         saveCheck={props.saveCheck}
       />
-      <Button onClick={() => props.deleteCheck({ name: props.name })}>
-        Delete
-      </Button>
+      <Popconfirm
+        title="Are you sure delete this check?"
+        onConfirm={() => props.deleteCheck({ name: props.name })}
+      >
+        <Button>Delete</Button>
+      </Popconfirm>
     </div>
   </div>
 );
