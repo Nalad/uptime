@@ -13,3 +13,24 @@
   margin: 16px 28px 16px 0;
   float: left;
 }
+
+.example-with-click-me {
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.example-with-click-me .chart .rv-xy-plot__axis__tick__line {
+  stroke: #6b6b76;
+}
+
+.highlight-container {
+  cursor: crosshair;
+}
+
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
