@@ -28,11 +28,11 @@ class PollsGraph extends React.Component<
     lastDrawLocation: null,
     series: [
       {
-        title: "Availability",
+        title: "Latency",
         disabled: false,
         data: this.props.dataPolls.map(poll => ({
           x: new Date(poll.time),
-          y: poll.availability === "UP" ? 1 : 0
+          y: poll.availability === "UP" ? poll.latency : 0
         }))
       }
     ]

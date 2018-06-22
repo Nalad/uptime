@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "antd";
 import EditCheck from "./EditCheck";
 import PollsGraph from "./PollsGraph";
+import { getMean, getVariance } from "../Utilities";
 
 const CheckInfo = (props: {
   ...$Exact<Check>,
@@ -28,8 +29,32 @@ const CheckInfo = (props: {
           props.polls.filter(poll => poll.availability === "UP").length /
           props.polls.length *
           100
-        ).toFixed(2)}%
+        ).toFixed(5)}%
       </p>
+      <p>
+        <strong>Latency: </strong>
+        <ul>
+          <li>
+            {getMean(
+              props.polls
+                .filter(poll => poll.availability === "UP")
+                .map(poll => poll.latency)
+            ).toFixed(5)}{" "}
+            ms - mean
+          </li>
+          <li>
+            {Math.sqrt(
+              getVariance(
+                props.polls
+                  .filter(poll => poll.availability === "UP")
+                  .map(poll => poll.latency)
+              )
+            ).toFixed(5)}{" "}
+            ms - standard deviation
+          </li>
+        </ul>
+      </p>
+      <PollsGraph key={props.name} dataPolls={props.polls} />
     </div>
     <div>
       <EditCheck
@@ -40,9 +65,6 @@ const CheckInfo = (props: {
       <Button onClick={() => props.deleteCheck({ name: props.name })}>
         Delete
       </Button>
-    </div>
-    <div>
-      <PollsGraph dataPolls={props.polls} />
     </div>
   </div>
 );
