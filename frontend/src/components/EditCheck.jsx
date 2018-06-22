@@ -26,10 +26,6 @@ class EditCheck extends React.Component<Props, State> {
     check: this.props.check
   };
 
-  static getDerivedStateFromProps(props: Props) {
-    return { check: props.check };
-  }
-
   showModal = () => {
     this.setState({ visible: true });
   };
@@ -37,15 +33,13 @@ class EditCheck extends React.Component<Props, State> {
   handleOk = () => {
     this.props.saveCheck(this.state.check);
     this.setState({
-      visible: false,
-      check: { name: "", uri: "", interval: 30000 }
+      visible: false
     });
   };
 
   handleCancel = () => {
     this.setState({
-      visible: false,
-      check: { name: "", uri: "", interval: 30000 }
+      visible: false
     });
   };
 

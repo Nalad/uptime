@@ -59,6 +59,7 @@ const CheckInfo = (props: {
     <div>
       <EditCheck
         mainVerb="Edit"
+        key={props.name}
         check={{ name: props.name, uri: props.uri, interval: props.interval }}
         saveCheck={props.saveCheck}
       />
