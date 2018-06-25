@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.13.RELEASE'
+        springBootVersion = '1.5.14.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -22,7 +22,6 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-security')
@@ -30,7 +29,8 @@ dependencies {
     compile('io.jsonwebtoken:jjwt:0.9.0')
     compile('com.google.guava:guava:25.1-jre')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
-    runtime('com.h2database:h2')
+    runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
 }
+
