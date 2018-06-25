@@ -31,29 +31,27 @@ const CheckInfo = (props: {
           100
         ).toFixed(5)}%
       </p>
-      <p>
-        <strong>Latency: </strong>
-        <ul>
-          <li>
-            {getMean(
+      <strong>Latency: </strong>
+      <ul>
+        <li>
+          {getMean(
+            props.polls
+              .filter(poll => poll.availability === "UP")
+              .map(poll => poll.latency)
+          ).toFixed(5)}{" "}
+          ms - mean
+        </li>
+        <li>
+          {Math.sqrt(
+            getVariance(
               props.polls
                 .filter(poll => poll.availability === "UP")
                 .map(poll => poll.latency)
-            ).toFixed(5)}{" "}
-            ms - mean
-          </li>
-          <li>
-            {Math.sqrt(
-              getVariance(
-                props.polls
-                  .filter(poll => poll.availability === "UP")
-                  .map(poll => poll.latency)
-              )
-            ).toFixed(5)}{" "}
-            ms - standard deviation
-          </li>
-        </ul>
-      </p>
+            )
+          ).toFixed(5)}{" "}
+          ms - standard deviation
+        </li>
+      </ul>
       <PollsGraph key={props.name} dataPolls={props.polls} />
     </div>
     <div>
