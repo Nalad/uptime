@@ -18,11 +18,12 @@ Requires:
 - JDK 8
 - Node 8
 - Docker
+- Gradle
 
 Clone repository
 
 ```sh
-$ git clone git://github.com/Nalad/uptime.git
+$ git clone https://github.com/Nalad/uptime.git
 $ cd uptime
 ```
 
@@ -39,10 +40,10 @@ Run backend
 ```sh
 $ cd backend
 $ export POSTGRES_DB="uptime"
-$ export POSTGRES_USERNAME="postgres"
+$ export POSTGRES_NAME="postgres"
 $ export POSTGRES_PASSWORD="postgres@123"
-$ ./gradlew assemble
-$ java -Dspring.profiles.active=dev -jar ./backend/build/libs/pompom-0.0.1-SNAPSHOT
+$ gradle assemble
+$ java -Dspring.profiles.active=dev -jar ./build/libs/pompom-0.0.1-SNAPSHOT.jar
 ```
 
 Run frontend
