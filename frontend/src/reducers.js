@@ -8,19 +8,49 @@ import {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
-  CHECKS_SUCCESS
+  CHECKS_SUCCESS,
+  CHECK_ADD_REQUEST,
+  CHECK_ADD_SUCCESS,
+  CHECK_ADD_FAILURE
 } from "./asyncActions";
 import { LOGOUT_REQUEST, LOGOUT_SUCCESS, CLEAN_CHECKS } from "./actions";
 
-const chks = (state = { checks: [] }, action: Action) => {
+const chks = (
+  state = { checks: [], isFetching: false, errorMessage: "" },
+  action: Action
+) => {
   switch (action.type) {
     case CHECKS_SUCCESS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         checks: action.payload
-      });
+      };
+    }
+    case CHECK_ADD_REQUEST: {
+      return {
+        ...state,
+        isFetching: true,
+        errorMessage: ""
+      };
+    }
+    case CHECK_ADD_SUCCESS: {
+      return {
+        ...state,
+        isFetching: false
+      };
+    }
+    case CHECK_ADD_FAILURE: {
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.payload
+      };
     }
     case CLEAN_CHECKS: {
-      return { checks: [] };
+      return {
+        ...state,
+        checks: []
+      };
     }
     default:
       return state;

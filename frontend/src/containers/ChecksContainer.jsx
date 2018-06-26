@@ -6,27 +6,13 @@ import { connect } from "react-redux";
 import type { RouterHistory } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { logoutUser } from "../actions";
-import { getChecks } from "../asyncActions";
+import { getChecks, addCheck } from "../asyncActions";
 import EditCheck from "../components/EditCheck";
 import Header from "../components/Header";
 import CheckInfo from "../components/CheckInfo";
 import { getAuthorizationHeader } from "../Utilities";
 
 const { Sider, Content } = Layout;
-
-const postCheck = (check: Check) => {
-  const headers = {
-    "Content-Type": "application/json",
-    ...getAuthorizationHeader()
-  };
-
-  axios({
-    method: "POST",
-    url: "http://localhost:8080/api/checks",
-    data: check,
-    headers
-  });
-};
 
 const deleteCheck = (check: Check) => {
   const headers = {
@@ -50,6 +36,7 @@ export type EditWindow = {
 
 type Props = {
   getData: Function,
+  addCheck: Function,
   logout: Function,
   checks: Array<Check>,
   history: RouterHistory
@@ -109,7 +96,7 @@ class ChecksContainer extends React.Component<Props, State> {
               {defaultCheck ? (
                 <CheckInfo
                   {...defaultCheck}
-                  saveCheck={postCheck}
+                  saveCheck={this.props.addCheck}
                   deleteCheck={deleteCheck}
                 />
               ) : (
@@ -121,7 +108,7 @@ class ChecksContainer extends React.Component<Props, State> {
         <EditCheck
           mainVerb="Add"
           check={{ name: "", uri: "", interval: 30000 }}
-          saveCheck={postCheck}
+          saveCheck={this.props.addCheck}
         />
       </Layout>
     );
@@ -140,6 +127,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   getData() {
     dispatch(getChecks());
+  },
+  addCheck(check: Check) {
+    dispatch(addCheck(check));
   },
   logout() {
     dispatch(logoutUser());

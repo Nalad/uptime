@@ -7,7 +7,10 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
   CHECKS_REQUEST,
-  CHECKS_SUCCESS
+  CHECKS_SUCCESS,
+  CHECK_ADD_REQUEST,
+  CHECK_ADD_SUCCESS,
+  CHECK_ADD_FAILURE
 } from "./asyncActions";
 
 import { LOGOUT_REQUEST, LOGOUT_SUCCESS, CLEAN_CHECKS } from "./actions";
@@ -80,5 +83,24 @@ export function receiveChecks(checksData: Array<Check>) {
 export function cleanChecks() {
   return {
     type: CLEAN_CHECKS
+  };
+}
+
+export function requestAddCheck() {
+  return {
+    type: CHECK_ADD_REQUEST
+  };
+}
+
+export function successAddCheck() {
+  return {
+    type: CHECK_ADD_SUCCESS
+  };
+}
+
+export function failureAddCheck(message: string) {
+  return {
+    type: CHECK_ADD_FAILURE,
+    payload: message
   };
 }

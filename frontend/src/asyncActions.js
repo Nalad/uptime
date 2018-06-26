@@ -9,7 +9,10 @@ import {
   requestSignUp,
   receiveSignUp,
   signUpError,
-  receiveChecks
+  receiveChecks,
+  requestAddCheck,
+  successAddCheck,
+  failureAddCheck
 } from "./actionCreators";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
@@ -22,6 +25,10 @@ export const SIGN_UP_FAILURE = "SIGN_UP_FAILURE";
 
 export const CHECKS_REQUEST = "CHECKS_REQUEST";
 export const CHECKS_SUCCESS = "CHECKS_SUCCESS";
+
+export const CHECK_ADD_REQUEST = "CHECK_ADD_REQUEST";
+export const CHECK_ADD_SUCCESS = "CHECK_ADD_SUCCESS";
+export const CHECK_ADD_FAILURE = "CHECK_ADD_FAILURE";
 
 export function loginUser(creds: Credentials) {
   return (dispatch: Function) => {
@@ -98,5 +105,32 @@ export function getChecks() {
         dispatch(receiveChecks(response.data));
       }
     });
+  };
+}
+
+export function addCheck(check: Check) {
+  return (dispatch: Dispatch) => {
+    const headers = {
+      "Content-Type": "application/json",
+      ...getAuthorizationHeader()
+    };
+
+    dispatch(requestAddCheck());
+    axios({
+      method: "POST",
+      url: "http://localhost:8080/api/checks",
+      data: check,
+      headers
+    })
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(successAddCheck());
+        } else {
+          dispatch(failureAddCheck(response.toString()));
+        }
+      })
+      .catch(error => {
+        dispatch(failureAddCheck(error.toString()));
+      });
   };
 }
