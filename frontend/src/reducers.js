@@ -66,55 +66,63 @@ const auth = (
 ) => {
   switch (action.type) {
     case LOGIN_REQUEST: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true,
         isAuthenticated: false,
         errorMessage: "",
         user: action.payload
-      });
+      };
     }
     case LOGIN_SUCCESS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         isAuthenticated: true,
         errorMessage: ""
-      });
+      };
     }
     case LOGIN_FAILURE: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         isAuthenticated: false,
         errorMessage: action.payload
-      });
+      };
     }
     case LOGOUT_REQUEST: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true
-      });
+      };
     }
     case LOGOUT_SUCCESS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         isAuthenticated: false
-      });
+      };
     }
     case SIGN_UP_REQUEST: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true,
         errorMessage: ""
-      });
+      };
     }
     case SIGN_UP_SUCCESS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         errorMessage: ""
-      });
+      };
     }
     case SIGN_UP_FAILURE: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         errorMessage: action.payload
-      });
+      };
     }
     default:
       return state;
