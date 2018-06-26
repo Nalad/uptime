@@ -16,14 +16,20 @@ import {
 import { LOGOUT_REQUEST, LOGOUT_SUCCESS, CLEAN_CHECKS } from "./actions";
 
 const chks = (
-  state = { checks: [], isFetching: false, errorMessage: "" },
+  state = {
+    checks: [],
+    isFetching: false,
+    errorMessage: "",
+    lastRefresh: -1
+  },
   action: Action
 ) => {
   switch (action.type) {
     case CHECKS_SUCCESS: {
       return {
         ...state,
-        checks: action.payload
+        checks: action.payload,
+        lastRefresh: new Date().getTime()
       };
     }
     case CHECK_ADD_REQUEST: {

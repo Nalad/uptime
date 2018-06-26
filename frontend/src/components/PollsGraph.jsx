@@ -30,10 +30,12 @@ class PollsGraph extends React.Component<
       {
         title: "Latency",
         disabled: false,
-        data: this.props.dataPolls.map(poll => ({
-          x: new Date(poll.time),
-          y: poll.availability === "UP" ? poll.latency : 0
-        }))
+        data: this.props.dataPolls
+          .sort((a, b) => new Date(a.time) - new Date(b.time))
+          .map(poll => ({
+            x: new Date(poll.time),
+            y: poll.availability === "UP" ? poll.latency : 0
+          }))
       }
     ]
   };

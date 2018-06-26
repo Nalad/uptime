@@ -4,7 +4,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import type { RouterHistory } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Button } from "antd";
 import { logoutUser } from "../actions";
 import { getChecks, addCheck } from "../asyncActions";
 import EditCheck from "../components/EditCheck";
@@ -39,6 +39,7 @@ type Props = {
   addCheck: Function,
   logout: Function,
   checks: Array<Check>,
+  lastRefresh: Date,
   history: RouterHistory
 };
 
@@ -95,6 +96,7 @@ class ChecksContainer extends React.Component<Props, State> {
             >
               {defaultCheck ? (
                 <CheckInfo
+                  key={this.props.lastRefresh}
                   {...defaultCheck}
                   saveCheck={this.props.addCheck}
                   deleteCheck={deleteCheck}
@@ -105,11 +107,16 @@ class ChecksContainer extends React.Component<Props, State> {
             </Content>
           </Layout>
         </Layout>
-        <EditCheck
-          mainVerb="Add"
-          check={{ name: "", uri: "", interval: 30000 }}
-          saveCheck={this.props.addCheck}
-        />
+        <div style={{ display: "inline" }}>
+          <EditCheck
+            mainVerb="Add"
+            check={{ name: "", uri: "", interval: 30000 }}
+            saveCheck={this.props.addCheck}
+          />
+          <Button style={{ display: "inline" }} onClick={this.props.getData}>
+            Refresh
+          </Button>
+        </div>
       </Layout>
     );
   }
@@ -117,10 +124,11 @@ class ChecksContainer extends React.Component<Props, State> {
 
 const mapStateToProps = state => {
   const { chks } = state;
-  const { checks } = chks;
+  const { checks, lastRefresh } = chks;
 
   return {
-    checks
+    checks,
+    lastRefresh
   };
 };
 
