@@ -32,6 +32,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.postgresql:postgresql:9.4.1212.jre7" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-aop:1.5.14.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-jdbc:1.5.14.RELEASE" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.h2database:h2:1.4.197" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-core:5.0.12.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-entitymanager:5.0.12.Final" level="project" />
     <orderEntry type="library" name="Gradle: javax.transaction:javax.transaction-api:1.2" level="project" />

@@ -1,7 +1,3 @@
 FROM postgres:10-alpine
 
-ENV POSTGRES_DB "uptime"
-ENV POSTGRES_NAME "postgres"
-ENV POSTGRES_PASSWORD "postgres@123"
-
 EXPOSE 5432

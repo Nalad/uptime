@@ -11,14 +11,16 @@ Monitor websites status
 - JWT Authentication
 - Ant Design
 
-## Running (only development build yet)
+## Running
 
-Requires:
+Requirements:
 
 - JDK 8
 - Node 8
 - Docker
 - Gradle
+
+### Development
 
 Clone repository
 
@@ -32,18 +34,16 @@ Run database
 ```sh
 $ cd database
 $ docker image build -t database:dev .
-$ docker run -p 5432:5432 database:dev
+$ docker run -e POSTGRES_DB="uptime" -e POSTGRES_USER="postgres" -e POSTGRES_PASSWORD="postgres@123" -p 5432:5432 database:dev
 ```
 
 Run backend
 
 ```sh
 $ cd backend
-$ export POSTGRES_DB="uptime"
-$ export POSTGRES_NAME="postgres"
-$ export POSTGRES_PASSWORD="postgres@123"
-$ gradle assemble
-$ java -Dspring.profiles.active=dev -jar ./build/libs/pompom-0.0.1-SNAPSHOT.jar
+$ gradle wrapper
+$ ./gradlew build
+$ java -jar ./build/libs/pompom-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 ```
 
 Run frontend
@@ -52,6 +52,15 @@ Run frontend
 $ cd frontend
 $ npm install
 $ npm run dev
+```
+
+### Production
+
+Export environment variables: `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
+
+```sh
+$ docker volume create uptime-pgdata
+$ docker-compose up
 ```
 
 ## API

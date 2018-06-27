@@ -30,7 +30,20 @@ dependencies {
     compile('com.google.guava:guava:25.1-jre')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
     runtime('org.postgresql:postgresql')
+    testRuntime('com.h2database:h2')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
+}
+
+task download(type: Exec) {
+    configurations.compile.files
+    configurations.runtime.files
+    configurations.testRuntime.files
+    configurations.testCompile.files
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5.1'
+    distributionType = Wrapper.DistributionType.ALL
 }
 
