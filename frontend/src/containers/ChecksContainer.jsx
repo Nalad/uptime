@@ -1,32 +1,32 @@
 // @flow
 
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 import { connect } from "react-redux";
 import type { RouterHistory } from "react-router-dom";
 import { Layout, Menu, Button } from "antd";
 import { logoutUser } from "../actions";
-import { getChecks, addCheck } from "../asyncActions";
+import { getChecks, addCheck, deleteCheck } from "../asyncActions";
 import EditCheck from "../components/EditCheck";
 import Header from "../components/Header";
 import CheckInfo from "../components/CheckInfo";
-import { getAuthorizationHeader } from "../Utilities";
+// import { getAuthorizationHeader } from "../Utilities";
 
 const { Sider, Content } = Layout;
 
-const deleteCheck = (check: Check) => {
-  const headers = {
-    "Content-Type": "application/json",
-    ...getAuthorizationHeader()
-  };
+// const deleteCheck = (check: Check) => {
+//   const headers = {
+//     "Content-Type": "application/json",
+//     ...getAuthorizationHeader()
+//   };
 
-  axios({
-    method: "DELETE",
-    url: "http://localhost:8080/api/checks",
-    data: check,
-    headers
-  });
-};
+//   axios({
+//     method: "DELETE",
+//     url: "http://localhost:8080/api/checks",
+//     data: check,
+//     headers
+//   });
+// };
 
 export type EditWindow = {
   name: string,
@@ -37,6 +37,7 @@ export type EditWindow = {
 type Props = {
   getData: Function,
   addCheck: Function,
+  deleteCheck: Function,
   logout: Function,
   checks: Array<Check>,
   lastRefresh: Date,
@@ -99,7 +100,7 @@ class ChecksContainer extends React.Component<Props, State> {
                   key={this.props.lastRefresh}
                   {...defaultCheck}
                   saveCheck={this.props.addCheck}
-                  deleteCheck={deleteCheck}
+                  deleteCheck={this.props.deleteCheck}
                 />
               ) : (
                 ""
@@ -138,6 +139,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
   addCheck(check: Check) {
     dispatch(addCheck(check));
+  },
+  deleteCheck(check: Check) {
+    dispatch(deleteCheck(check));
   },
   logout() {
     dispatch(logoutUser());

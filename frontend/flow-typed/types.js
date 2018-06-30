@@ -32,7 +32,10 @@ declare type ActionType =
   | "CLEAN_CHECKS"
   | "CHECK_ADD_REQUEST"
   | "CHECK_ADD_SUCCESS"
-  | "CHECK_ADD_FAILURE";
+  | "CHECK_ADD_FAILURE"
+  | "CHECK_DELETE_REQUEST"
+  | "CHECK_DELETE_SUCCESS"
+  | "CHECK_DELETE_FAILURE";
 
 declare type ActionT<A: ActionType, P> = {|
   type: A,
@@ -53,4 +56,7 @@ export type Action =
   | ActionT<"CLEAN_CHECKS", *>
   | ActionT<"CHECK_ADD_REQUEST", *>
   | ActionT<"CHECK_ADD_SUCCESS", *>
-  | ActionT<"CHECK_ADD_FAILURE", string>;
+  | ActionT<"CHECK_ADD_FAILURE", string>
+  | ActionT<"CHECK_DELETE_REQUEST", *>
+  | ActionT<"CHECK_DELETE_SUCCESS", string>
+  | ActionT<"CHECK_DELETE_FAILURE", string>;

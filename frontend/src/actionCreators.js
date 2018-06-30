@@ -10,7 +10,10 @@ import {
   CHECKS_SUCCESS,
   CHECK_ADD_REQUEST,
   CHECK_ADD_SUCCESS,
-  CHECK_ADD_FAILURE
+  CHECK_ADD_FAILURE,
+  CHECK_DELETE_REQUEST,
+  CHECK_DELETE_SUCCESS,
+  CHECK_DELETE_FAILURE
 } from "./asyncActions";
 
 import { LOGOUT_REQUEST, LOGOUT_SUCCESS, CLEAN_CHECKS } from "./actions";
@@ -101,6 +104,26 @@ export function successAddCheck() {
 export function failureAddCheck(message: string) {
   return {
     type: CHECK_ADD_FAILURE,
+    payload: message
+  };
+}
+
+export function requestDeleteCheck() {
+  return {
+    type: CHECK_DELETE_REQUEST
+  };
+}
+
+export function successDeleteCheck(checkName: string) {
+  return {
+    type: CHECK_DELETE_SUCCESS,
+    payload: checkName
+  };
+}
+
+export function failureDeleteCheck(message: string) {
+  return {
+    type: CHECK_DELETE_FAILURE,
     payload: message
   };
 }

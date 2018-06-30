@@ -11,7 +11,10 @@ import {
   CHECKS_SUCCESS,
   CHECK_ADD_REQUEST,
   CHECK_ADD_SUCCESS,
-  CHECK_ADD_FAILURE
+  CHECK_ADD_FAILURE,
+  CHECK_DELETE_REQUEST,
+  CHECK_DELETE_SUCCESS,
+  CHECK_DELETE_FAILURE
 } from "./asyncActions";
 import { LOGOUT_REQUEST, LOGOUT_SUCCESS, CLEAN_CHECKS } from "./actions";
 
@@ -46,6 +49,27 @@ const chks = (
       };
     }
     case CHECK_ADD_FAILURE: {
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.payload
+      };
+    }
+    case CHECK_DELETE_REQUEST: {
+      return {
+        ...state,
+        isFetching: true,
+        errorMessage: ""
+      };
+    }
+    case CHECK_DELETE_SUCCESS: {
+      return {
+        ...state,
+        checks: state.checks.filter(v => v.name !== action.payload),
+        isFetching: false
+      };
+    }
+    case CHECK_DELETE_FAILURE: {
       return {
         ...state,
         isFetching: false,

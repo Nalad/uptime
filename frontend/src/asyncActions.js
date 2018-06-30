@@ -12,7 +12,10 @@ import {
   receiveChecks,
   requestAddCheck,
   successAddCheck,
-  failureAddCheck
+  failureAddCheck,
+  requestDeleteCheck,
+  successDeleteCheck,
+  failureDeleteCheck
 } from "./actionCreators";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
@@ -29,6 +32,10 @@ export const CHECKS_SUCCESS = "CHECKS_SUCCESS";
 export const CHECK_ADD_REQUEST = "CHECK_ADD_REQUEST";
 export const CHECK_ADD_SUCCESS = "CHECK_ADD_SUCCESS";
 export const CHECK_ADD_FAILURE = "CHECK_ADD_FAILURE";
+
+export const CHECK_DELETE_REQUEST = "CHECK_DELETE_REQUEST";
+export const CHECK_DELETE_SUCCESS = "CHECK_DELETE_SUCCESS";
+export const CHECK_DELETE_FAILURE = "CHECK_DELETE_FAILURE";
 
 export function loginUser(creds: Credentials) {
   return (dispatch: Function) => {
@@ -131,6 +138,33 @@ export function addCheck(check: Check) {
       })
       .catch(error => {
         dispatch(failureAddCheck(error.toString()));
+      });
+  };
+}
+
+export function deleteCheck(check: Check) {
+  return (dispatch: Dispatch) => {
+    const headers = {
+      "Content-Type": "application/json",
+      ...getAuthorizationHeader()
+    };
+
+    dispatch(requestDeleteCheck());
+    axios({
+      method: "DELETE",
+      url: "http://localhost:8080/api/checks",
+      data: check,
+      headers
+    })
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(successDeleteCheck(check.name));
+        } else {
+          dispatch(failureDeleteCheck(response.toString()));
+        }
+      })
+      .catch(error => {
+        dispatch(failureDeleteCheck(error.toString()));
       });
   };
 }
